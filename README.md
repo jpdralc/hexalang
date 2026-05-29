@@ -184,29 +184,6 @@ python hexalang.py arquivo.hexa
 ```bash
 python arquivo.py
 ```
-
----
-
-# Exemplo Completo
-
-```txt
-apita o árbitro
-
-camisa 0 gols
-
-a torcida canta "O jogo começou!"
-
-enquanto gols é menor que 5
-    a torcida conta gols
-    gols vai mais 1
-...
-
-chama o var pra ver se gols é igual a 5
-    torcida grita "GOOOOOOOL"
-
-fim de papo
-```
-
 ---
 
 # Sistema de Áudio
