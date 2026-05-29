@@ -25,6 +25,7 @@ HEXALANG/
 ├── hexa_to_python/         # Python gerado automaticamente
 │
 ├── utils/
+│   ├── view_windows_language.py
 │
 ├── hexalang.py             # Transpilador
 ├── hexa.bat                # Executor automático
@@ -51,19 +52,81 @@ https://www.python.org/downloads/
 
 O HexaLang usa:
 
-* `pywin32`
-* `pygame`
+* **[pywin32](https://pypi.org/project/pywin32/):** Necessária para fazer a ponte entre o Python e o sistema de voz nativo do Windows (SAPI5). É essa biblioteca que permite que a linguagem `.hexa` "ganhe voz" e narre a execução do código como um verdadeiro locutor esportivo, tudo localmente e sem precisar de internet.
 
 Rode esse comando: 
 ```bash
- pip install pygame pywin32
+ pip install pywin32
 ```
 
-# Como Executar o código
+# Rode os códigos existentes:
 
-## 1. Crie um arquivo `.hexa`
+```bash
+ ./hexa.bat ./hexa_scripts/cerveja.hexa
+```
 
-Exemplo:
+```bash
+ ./hexa.bat ./hexa_scripts/hello.hexa
+```
+
+```bash
+ ./hexa.bat ./hexa_scripts/jogo.hexa
+```
+
+```bash
+ ./hexa.bat ./hexa_scripts/inputs.hexa
+```
+
+## Dicionário da Linguagem
+
+Abaixo estão as palavras reservadas da linguagem e como elas são traduzidas "por debaixo dos panos" para o Python.
+### 📢 Saídas de Texto e Áudio (Outputs)
+
+| Sintaxe .hexa | O que faz | Equivalente em Python |
+| :--- | :--- | :--- |
+| `apita o árbitro` | Inicia o código, tipo um begin | `print("apita o árbitro")` |
+| `fim de papo` | Encerra o código | `print("fim de papo")` |
+| `a torcida canta "texto"` | Imprime o texto especificado | `print("texto")` |
+| `a torcida conta [var]` | Lê o valor da variável em velocidade acelerada | `narrate_fast([var])` |
+| `torcida grita [var]` | Imprime o valor de uma variável | `print([var])` |
+| `o estadio grita [var]` | Imprime o valor de uma variável em destaque | `print([var])` |
+
+### 📥 Variáveis e Entrada de Dados (Inputs)
+
+| Sintaxe .hexa | O que faz | Equivalente em Python |
+| :--- | :--- | :--- |
+| `camisa [valor] [var]` | Declara uma variável numérica inteira | `var = valor` |
+| `odd [valor] [var]` | Declara uma variável numérica decimal | `var = valor` |
+| `[var] é "texto"` | Declara uma variável de texto (String) | `var = "texto"` |
+| `[var] responde a pergunta "texto"` | Pede uma entrada de dados ao usuário | `var = input("texto")` |
+
+### ➕ Operadores Matemáticos
+
+| Sintaxe .hexa | O que faz | Equivalente em Python |
+| :--- | :--- | :--- |
+| `[var] vai mais [valor]` | Soma um valor à variável existente | `var += valor` |
+| `[var] vai menos [valor]` | Subtrai um valor da variável existente | `var -= valor` |
+
+### ⚖️ Estruturas de Condição e Repetição
+
+| Sintaxe .hexa | O que faz | Equivalente em Python |
+| :--- | :--- | :--- |
+| `chama o var pra ver se [condição]` | Cria um bloco condicional | `if condicao:` |
+| `vamos as opcoes do banco [var]` | Cria um bloco de múltipla escolha | `match var:` |
+| `se entrar o [valor]:` | Define uma das opções da múltipla escolha | `case valor:` |
+| `enquanto [condição]` | Cria um laço de repetição | `while condicao:` |
+| `...` *(no fim da linha)* | Pula para a próxima iteração do laço | `continue` |
+| `.` *(no fim da linha)* | Interrompe o laço imediatamente | `break` |
+
+### 🆚 Operadores de Comparação
+
+| Sintaxe .hexa | O que faz | Equivalente em Python |
+| :--- | :--- | :--- |
+| `é igual a` | Verifica se dois valores são iguais | `==` |
+| `é maior que` | Verifica se o valor da esquerda é maior | `>` |
+| `é menor que` | Verifica se o valor da esquerda é menor | `<` |
+
+Crie um código em Hexa
 
 ```txt
 apita o árbitro
@@ -83,7 +146,7 @@ fim de papo
 Salve como:
 
 ```txt
-meu_jogo.hexa
+meu_codigo.hexa
 ```
 
 ---
@@ -93,7 +156,7 @@ meu_jogo.hexa
 Dentro da pasta do projeto:
 
 ```bash
-hexa.bat .\hexa_scripts\meu_jogo.hexa
+ ./hexa.bat ./hexa_scripts/meu_codigo.hexa
 ```
 
 O sistema irá:
@@ -146,70 +209,6 @@ fim de papo
 
 ---
 
-# Sintaxe Básica
-
-## Narrar texto
-
-```txt
-a torcida canta "Olá mundo!"
-```
-
----
-
-## Criar variável
-
-```txt
-camisa 10 gols
-```
-
-Resultado:
-
-```python
-gols = 10
-```
-
----
-
-## Somar
-
-```txt
-gols vai mais 1
-```
-
----
-
-## Subtrair
-
-```txt
-gols vai menos 1
-```
-
----
-
-## Loop
-
-```txt
-enquanto gols é menor que 5
-```
-
----
-
-## Condição
-
-```txt
-chama o var pra ver se gols é igual a 5
-```
-
----
-
-## Entrada de usuário
-
-```txt
-nome responde a pergunta "Qual seu nome?"
-```
-
----
-
 # Sistema de Áudio
 
 A cada saída do código existe uma chance de 10% de tocar uma vinheta aleatória.
@@ -246,36 +245,6 @@ Narração + Sons + Texto
 
 ---
 
-# Exemplos
-
-## Hello World
-
-```txt
-a torcida canta "Olá mundo!"
-```
-
----
-
-## Contador
-
-```txt
-camisa 0 contador
-
-enquanto contador é menor que 10
-    a torcida conta contador
-    contador vai mais 1
-...
-```
-
----
-
-## Pergunta para o usuário
-
-```txt
-nome responde a pergunta "Qual o seu nome?"
-
-a torcida canta "Olá {nome}"
-```
 
 ## OPCIONAL: Caso seu código esteja sendo narrado em inglês, siga esse passo a passo pra instalar a voz em PT-BR:
 
