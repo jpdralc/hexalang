@@ -1,15 +1,11 @@
 # HEXALANG
 
-> "Aqui o código joga bonito."
-
 O **HexaLang** é uma linguagem inspirada no futebol que transpila arquivos `.hexa` para Python.
 
-Ela transforma código em uma experiência divertida com:
-
-* Narração em voz
-* Sons de torcida
+A saída do código .hexa, ao ser transpilado, contém:
+* Narração de voz (TTS)
+* Sons de torcida (Vinhetas clássicas das rádios brasileiras que tem 10% de chance de tocarem a cada saída no terminal)
 * Efeito máquina de escrever
-* Sintaxe em português
 
 ---
 
@@ -41,9 +37,6 @@ HEXALANG/
 # Requisitos
 
 ## Python
-
-O projeto funciona com:
-
 ```txt
 3.10.x < Python < 3.14.x
 ```
@@ -59,69 +52,14 @@ https://www.python.org/downloads/
 O HexaLang usa:
 
 * `pywin32`
-* `winsound` (já vem no Windows)
+* `pygame`
 
-Instale o `pywin32`:
-
+Rode esse comando: 
 ```bash
-pip install pywin32
+ pip install pygame pywin32
 ```
 
----
-
-# Instalando Voz em Português
-
-Caso o Windows não tenha voz PT-BR instalada, siga os passos abaixo.
-
-## Pré-requisitos
-
-* Windows 10 ou 11
-* PowerShell como Administrador
-* Internet
-
----
-
-## Instalar Voz PT-BR
-
-Abra o **PowerShell como Administrador** e execute:
-
-```powershell
-Add-WindowsCapability -Online -Name Language.TextToSpeech~~~pt-BR~0.0.1.0
-```
-
----
-
-## Habilitar a voz no SAPI5
-
-Execute os comandos abaixo linha por linha:
-
-```powershell
-$source = "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Voices\Tokens\MSTTS_V110_ptBR_MariaM"
-
-$dest = "HKLM:\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_ptBR_MariaM"
-
-Copy-Item -Path $source -Destination $dest -Recurse -Force
-```
-
----
-
-## Verificar instalação
-
-Na pasta do projeto execute:
-
-```bash
-python .\utils\view_windows_language.py
-```
-
-Resultado esperado:
-
-```txt
-Microsoft Maria - Portuguese (Brazil)
-```
-
----
-
-# Como Executar
+# Como Executar o código
 
 ## 1. Crie um arquivo `.hexa`
 
@@ -274,7 +212,7 @@ nome responde a pergunta "Qual seu nome?"
 
 # Sistema de Áudio
 
-A cada saída do código existe uma chance de tocar uma vinheta aleatória.
+A cada saída do código existe uma chance de 10% de tocar uma vinheta aleatória.
 
 Os sons ficam em:
 
@@ -338,3 +276,54 @@ nome responde a pergunta "Qual o seu nome?"
 
 a torcida canta "Olá {nome}"
 ```
+
+## OPCIONAL: Caso seu código esteja sendo narrado em inglês, siga esse passo a passo pra instalar a voz em PT-BR:
+
+Pré-requisitos
+
+* Windows 10 ou 11
+* PowerShell como Administrador
+* Internet
+
+---
+
+## Instalar Voz PT-BR
+
+Abra o **PowerShell como Administrador** e execute:
+
+```powershell
+Add-WindowsCapability -Online -Name Language.TextToSpeech~~~pt-BR~0.0.1.0
+```
+
+---
+
+## Habilitar a voz no SAPI5
+
+Execute os comandos abaixo linha por linha:
+
+```powershell
+$source = "HKLM:\SOFTWARE\Microsoft\Speech_OneCore\Voices\Tokens\MSTTS_V110_ptBR_MariaM"
+
+$dest = "HKLM:\SOFTWARE\Microsoft\Speech\Voices\Tokens\MSTTS_V110_ptBR_MariaM"
+
+Copy-Item -Path $source -Destination $dest -Recurse -Force
+```
+
+---
+
+## Verificar instalação
+
+Na pasta do projeto execute:
+
+```bash
+python .\utils\view_windows_language.py
+```
+
+Resultado esperado:
+
+```txt
+Microsoft Maria - Portuguese (Brazil)
+```
+
+---
+
